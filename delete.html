@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Drink</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h3>Are you sure you want to delete this drink?</h3>
+    <ul class="list-group mb-3">
+        <li class="list-group-item"><strong>Name:</strong> {{ drink[1] }}</li>
+        <li class="list-group-item"><strong>Price:</strong> {{ drink[2] }}</li>
+        <li class="list-group-item"><strong>Quantity:</strong> {{ drink[3] }}</li>
+        <li class="list-group-item"><strong>Expiry Date:</strong> {{ drink[4] }}</li>
+        <li class="list-group-item"><strong>Batch No:</strong> {{ drink[5] }}</li>
+        <li class="list-group-item"><strong>Subtype:</strong> {{ drink[6] }}</li>
+    </ul>
+
+    <form action="{{ url_for('delete_confirmed', id=drink[0]) }}" method="POST">
+        <button type="submit" class="btn btn-danger">Yes, Delete</button>
+        <a href="{{ url_for('home') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+</body>
+</html>
