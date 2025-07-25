@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Drinks Inventory</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+</head>
+<body>
+<div class="container-fluid">
+    <h2 class="text-center alert alert-success">Drinks Depot - Inventory</h2>
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <!-- Add Drink Button -->
+            <button class="btn btn-primary" data-toggle="modal" data-target="#newDrinkModal">Add Drink</button>
+
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <!-- Modal -->
+            <div id="newDrinkModal" class="modal fade" role="dialog" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Enter New Drink</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ url_for('insert') }}" method="POST">
+                                <div class="form-group">
+                                    <label>Name of Drink</label>
+                                    <input type="text" name="name_of_drink" placeholder="Name of Drink" class="form-control" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Price</label>
+                                    <input type="text" name="price" placeholder="Price in Naira" class="form-control" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Quantity Received</label>
+                                    <input type="text" name="quantity" placeholder="Quantity Received" class="form-control" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Expiry Date</label>
+                                    <input type="date" name="expiry_date" class="form-control" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Batch Number</label>
+                                    <input type="text" name="batch_no" placeholder="Batch Number" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Drink Subtype</label>
+                                    <input type="text" name="drink_subtype" placeholder="Drink Subtype" class="form-control" />
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add Drink</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <table class="table table-bordered mt-4" id="myTable">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Price (₦)</th>
+                        <th>Quantity</th>
+                        <th>Expiry Date</th>
+                        <th>Batch No.</th>
+                        <th>Drink Subtype</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for drink in drinks %}
+                    <tr>
+                        <td>{{ drink[1] }}</td>
+                        <td>{{ drink[2] }}</td>
+                        <td>{{ drink[3] }}</td>
+                        <td>{{ drink[4] }}</td>
+                        <td>{{ drink[5] }}</td>
+                        <td>{{ drink[6] }}</td>
+                        <td>
+                            <a href="{{ url_for('edit', id=drink[0]) }}" class="btn btn-sm btn-info">Edit</a>
+                            <form action="{{ url_for('delete_confirmed', id=drink[0]) }}" method="POST" style="display:inline;">
+                                 <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this drink?');">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>
